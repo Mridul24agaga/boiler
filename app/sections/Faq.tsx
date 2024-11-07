@@ -66,7 +66,7 @@ export default function Component() {
     },
     {
       question: "Do you offer refunds?",
-      answer: "We offer a 14-day money-back guarantee if you're not satisfied with the product. Contact our support team with your purchase details, and we'll process your refund promptly."
+      answer: "No, we dont "
     }
   ]
 

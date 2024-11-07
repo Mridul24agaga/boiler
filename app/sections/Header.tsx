@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import { Menu, Zap, Layout, Users } from 'lucide-react'
+import Link from 'next/link'
+import { Zap, ChevronDown } from 'lucide-react'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'ghost'
@@ -19,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background'
   const variantStyles = {
     default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-    ghost: 'hover:bg-accent hover:text-accent-foreground',
+    ghost: 'text-white hover:bg-gray-800',
   }
   const sizeStyles = {
     default: 'h-10 py-2 px-4',
@@ -43,42 +44,110 @@ const Separator = ({ className = '', ...props }: React.HTMLAttributes<HTMLDivEle
 
 export default function Header() {
   const [loading, setLoading] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const handleButtonClick = () => {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-      window.location.href = '/'
+      window.location.href = 'https://example.com/'
     }, 2000)
   }
 
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown)
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  const demoApps = [
+    { category: 'AI Templates', items: [
+      { name: 'AI Content Generator', emoji: '🤖', link: 'https://boilerplate2-eight.vercel.app/' },
+    ]},
+    { category: 'Landing Page Templates', items: [
+      { name: 'SAAS Template 1', emoji: '🚀', link: 'https://boilerplate-template1-3751.vercel.app/' },
+      { name: 'SAAS Template 2', emoji: '🏢', link: 'https://boilerplate3.vercel.app/' },
+    ]},
+  ]
+
   return (
-    <header className="sticky top-0 z-20 bg-[#fff] backdrop-blur-sm font-inter">
+    <header className={`sticky top-0 z-20 bg-black text-white backdrop-blur-sm font-inter transition-all duration-300 ${isScrolled ? 'bg-opacity-70' : 'bg-opacity-100'}`}>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       <div className="container relative">
         <div className="flex items-center justify-between py-4">
-          <div className="flex items-center ml-32">
+          <div className="flex items-center">
             <Image
-              src="https://media.discordapp.net/attachments/1193183717548638301/1302228940248715274/Blue_Illustration_University_Circle_Brand_Logo_1.png?ex=67275ab5&is=67260935&hm=5fd0539205effa4c8e4b6ec62047afc70cb5440e102d286d07de736298f66647&=&format=webp&quality=lossless"
+              src="https://media.discordapp.net/attachments/1193183717548638301/1304142754326118430/Blue_Illustration_University_Circle_Brand_Logo_2_1.png?ex=672e5116&is=672cff96&hm=470fae646f5e88c4d611ab57b0820be7586c99ee91993a8358d4ce27fbd66d6b&=&format=webp&quality=lossless"
               alt="Company Logo"
-              width={172}
-              height={172}
+              width={160}
+              height={160}
+              className="w-16 h-16 md:w-20 md:h-20 object-contain transition-all duration-300"
+              priority
             />
           </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <Button variant="ghost" size="sm" className="text-gray-800 hover:bg-gray-100">
-              <Layout className="w-4 h-4 mr-2" />
-              Demo Apps
-            </Button>
-            <Button variant="ghost" size="sm" className="text-gray-800 hover:bg-gray-100">
-              <Users className="w-4 h-4 mr-2" />
-              Affiliates (50%)
-            </Button>
+          <nav className="flex items-center space-x-4 md:space-x-6">
+            <div className="relative" ref={dropdownRef}>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-white hover:bg-gray-800/50"
+                onClick={toggleDropdown}
+                aria-haspopup="true"
+                aria-expanded={showDropdown}
+              >
+                Demos
+                <ChevronDown className="w-4 h-4 ml-2" aria-hidden="true" />
+              </Button>
+              {showDropdown && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-gray-900/95 rounded-md shadow-lg py-1 z-10">
+                  {demoApps.map((category, index) => (
+                    <div key={index} className="py-2">
+                      <h3 className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        {category.category}
+                      </h3>
+                      {category.items.map((item, itemIndex) => (
+                        <Link
+                          key={itemIndex}
+                          href={item.link}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800/50"
+                        >
+                          <span className="mr-2" aria-hidden="true">{item.emoji}</span>
+                          {item.name}
+                        </Link>
+                      ))}
+                      {index < demoApps.length - 1 && (
+                        <Separator className="my-2 bg-gray-700" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             <Button
               onClick={handleButtonClick}
               disabled={loading}
               className={`
-                relative overflow-hidden font-bold py-2 px-4 rounded-lg shadow-lg
+                hidden md:inline-flex relative overflow-hidden font-bold py-2 px-4 rounded-lg shadow-lg
                 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105
                 disabled:opacity-50 disabled:cursor-not-allowed
                 bg-gradient-to-br from-gray-900 to-black text-white
@@ -89,17 +158,14 @@ export default function Header() {
             >
               {loading ? 'Loading...' : (
                 <>
-                  Get Started <Zap className="ml-2 h-4 w-4 inline" />
+                  Get Started <Zap className="ml-2 h-4 w-4 inline" aria-hidden="true" />
                 </>
               )}
             </Button>
           </nav>
-          <Button variant="ghost" size="icon" className="md:hidden text-black hover:bg-gray-100">
-            <Menu className="h-6 w-6" />
-          </Button>
         </div>
       </div>
-      <Separator className="bg-gray-200" />
+      <Separator className="bg-gray-700" />
     </header>
   )
 }
