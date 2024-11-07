@@ -93,9 +93,9 @@ export default function Header() {
   return (
     <header className={`sticky top-0 z-20 bg-black text-white backdrop-blur-sm font-inter transition-all duration-300 ${isScrolled ? 'bg-opacity-70' : 'bg-opacity-100'}`}>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <div className="container relative">
+      <div className="container max-w-5xl mx-auto px-4 relative">
         <div className="flex items-center justify-between py-4">
-          <div className="flex items-center">
+          <div className="flex items-center fixed left-4 md:left-8 z-30">
             <Image
               src="https://media.discordapp.net/attachments/1193183717548638301/1304142754326118430/Blue_Illustration_University_Circle_Brand_Logo_2_1.png?ex=672e5116&is=672cff96&hm=470fae646f5e88c4d611ab57b0820be7586c99ee91993a8358d4ce27fbd66d6b&=&format=webp&quality=lossless"
               alt="Company Logo"
@@ -105,7 +105,7 @@ export default function Header() {
               priority
             />
           </div>
-          <nav className="flex items-center space-x-4 md:space-x-6">
+          <nav className="flex items-center ml-auto space-x-4 md:space-x-6">
             <div className="relative" ref={dropdownRef}>
               <Button 
                 variant="ghost" 
@@ -119,7 +119,7 @@ export default function Header() {
                 <ChevronDown className="w-4 h-4 ml-2" aria-hidden="true" />
               </Button>
               {showDropdown && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-gray-900/95 rounded-md shadow-lg py-1 z-10">
+                <div className="absolute top-full right-0 mt-2 w-64 bg-gray-900/95 rounded-md shadow-lg py-1 z-10">
                   {demoApps.map((category, index) => (
                     <div key={index} className="py-2">
                       <h3 className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -154,6 +154,7 @@ export default function Header() {
                 before:absolute before:inset-0 before:bg-black before:bg-opacity-20
                 before:bg-[radial-gradient(#ffffff33_1px,transparent_1px)]
                 before:bg-[length:4px_4px] before:opacity-30 before:content-['']
+                border border-white
               `}
             >
               {loading ? 'Loading...' : (
