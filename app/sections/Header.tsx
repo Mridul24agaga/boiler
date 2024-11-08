@@ -86,7 +86,8 @@ export default function Header() {
     ]},
     { category: 'Landing Page Templates', items: [
       { name: 'SAAS Template 1', emoji: '🏢', link: 'https://boilerplate3.vercel.app/' },
-      { name: 'SAAS Template 2', emoji: '🖥️', link: 'https://boilerplate4-eight.vercel.app//' },
+      { name: 'SAAS Template 2', emoji: '🖥️', link: 'https://boilerplate4-eight.vercel.app/' },
+      { name: 'SAAS Template 3', emoji: '🖥️', link: 'https://boilerplate-template1.vercel.app/' },
 
     ]},
   ]
