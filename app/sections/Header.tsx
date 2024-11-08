@@ -83,6 +83,8 @@ export default function Header() {
   const demoApps = [
     { category: 'AI Templates', items: [
       { name: 'AI Content Generator', emoji: '🤖', link: 'https://boilerplate2-eight.vercel.app/' },
+      { name: 'AI Code Generator', emoji: '🤖', link: 'https://codebuilder-37hv.vercel.app/sign-in?redirect_url=https%3A%2F%2Fcodebuilder-37hv.vercel.app%2F%3FvercelToolbarCode%3DXiYvtJSWInby4Vl' },
+
     ]},
     { category: 'Landing Page Templates', items: [
       { name: 'SAAS Template 1', emoji: '🏢', link: 'https://boilerplate3.vercel.app/' },
