@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 type FAQItem = {
   question: string
@@ -8,27 +9,38 @@ type FAQItem = {
 }
 
 const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onClick: () => void }> = ({ item, isOpen, onClick }) => (
-  <div className="border-b border-gray-200">
+  <div className="border-b border-gray-700">
     <button
       className="flex justify-between items-center w-full py-5 text-left"
       onClick={onClick}
       aria-expanded={isOpen}
     >
-      <span className="text-lg font-medium text-gray-900">{item.question}</span>
-      <svg
-        className={`w-6 h-6 text-gray-500 transform ${isOpen ? 'rotate-180' : ''}`}
+      <span className="text-lg font-medium text-white">{item.question}</span>
+      <motion.svg
+        className="w-6 h-6 text-gray-400"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
+        animate={{ rotate: isOpen ? 180 : 0 }}
+        transition={{ duration: 0.3 }}
       >
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-      </svg>
+      </motion.svg>
     </button>
-    {isOpen && (
-      <div className="pb-5">
-        <p className="text-gray-600">{item.answer}</p>
-      </div>
-    )}
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="pb-5">
+            <p className="text-gray-300">{item.answer}</p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   </div>
 )
 
@@ -66,19 +78,16 @@ export default function Component() {
     },
     {
       question: "Do you offer refunds?",
-      answer: "No, we dont "
+      answer: "No, we don't offer refunds. We encourage you to carefully review the features and documentation before making a purchase."
     }
   ]
 
   return (
-    <section className="py-16 px-4 bg-white">
+    <section className="py-16 px-4 bg-black text-white">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-block bg-black text-white px-4 py-1 text-sm font-medium mb-2">
-            FAQ
-          </div>
-          <h2 className="text-3xl font-bold mb-4 text-black">Frequently asked questions</h2>
-          <p className="text-gray-600">
+          <h2 className="text-3xl font-bold mb-4">Frequently asked questions</h2>
+          <p className="text-gray-400">
             Need help with something? Here are some of the most common questions we get.
           </p>
         </div>

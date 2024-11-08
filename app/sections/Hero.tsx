@@ -18,15 +18,40 @@ export default function Component() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 bg-black relative overflow-hidden">
-      {/* Grid background */}
+      {/* Enhanced Grid background */}
       <div 
         className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
-                            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), 
+                            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
           backgroundSize: '50px 50px',
         }}
       />
+      
+      {/* Floating light elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute bg-purple-500 opacity-10 rounded-full blur-xl"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              width: `${Math.random() * 100 + 50}px`,
+              height: `${Math.random() * 100 + 50}px`,
+            }}
+            animate={{
+              y: [0, -10, 0],
+              x: [0, Math.random() * 10 - 5, 0],
+            }}
+            transition={{
+              duration: Math.random() * 5 + 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
       
       {/* Radial gradient for a subtle glow effect */}
       <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
@@ -79,7 +104,7 @@ export default function Component() {
         </motion.div>
 
         <motion.div
-          className="flex flex-col sm:flex-row justify-center gap-4"
+          className="flex flex-col sm:flex-row justify-center gap-4 mb-12"
           initial="hidden"
           animate={isLoaded ? "visible" : "hidden"}
           variants={fadeUpVariants}

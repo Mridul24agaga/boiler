@@ -21,7 +21,7 @@ export const LogoTicker = () => {
   ];
 
   return (
-    <div className="py-6 md:py-10 bg-[#fff] flex items-center justify-center">
+    <div className="py-6 md:py-10 bg-black flex items-center justify-center">
       <div className="max-w-5xl w-full overflow-hidden">
         <div className="flex items-center [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]">
           <motion.div
@@ -40,7 +40,7 @@ export const LogoTicker = () => {
                 <Image
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-w-full max-h-full object-contain"
+                  className="max-w-full max-h-full object-contain invert"
                   width={96}
                   height={48}
                 />

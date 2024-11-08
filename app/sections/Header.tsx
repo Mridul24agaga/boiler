@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Zap, ChevronDown } from 'lucide-react'
+import logoo from '@/app/assets/logoo.png'
+
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'ghost'
@@ -101,7 +103,7 @@ export default function Header() {
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center fixed left-4 md:left-8 z-30">
             <Image
-              src="https://media.discordapp.net/attachments/1193183717548638301/1304142754326118430/Blue_Illustration_University_Circle_Brand_Logo_2_1.png?ex=672e5116&is=672cff96&hm=470fae646f5e88c4d611ab57b0820be7586c99ee91993a8358d4ce27fbd66d6b&=&format=webp&quality=lossless"
+              src={logoo}
               alt="Company Logo"
               width={160}
               height={160}
