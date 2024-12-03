@@ -9,15 +9,20 @@ type FAQItem = {
 }
 
 const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onClick: () => void }> = ({ item, isOpen, onClick }) => (
-  <div className="border-b border-gray-700">
+  <motion.div 
+    className="border-b border-gray-800"
+    initial={false}
+    animate={{ backgroundColor: isOpen ? "rgba(255, 255, 255, 0.03)" : "transparent" }}
+    transition={{ duration: 0.3 }}
+  >
     <button
-      className="flex justify-between items-center w-full py-5 text-left"
+      className="flex justify-between items-center w-full py-6 text-left"
       onClick={onClick}
       aria-expanded={isOpen}
     >
-      <span className="text-lg font-medium text-white">{item.question}</span>
+      <span className="text-xl font-semibold text-white pr-4">{item.question}</span>
       <motion.svg
-        className="w-6 h-6 text-gray-400"
+        className="w-6 h-6 text-black-400 flex-shrink-0"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -27,7 +32,7 @@ const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onClick: () => void }>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
       </motion.svg>
     </button>
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {isOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
@@ -35,16 +40,16 @@ const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onClick: () => void }>
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="pb-5">
-            <p className="text-gray-300">{item.answer}</p>
+          <div className="pb-6 pr-12">
+            <p className="text-gray-300 text-lg leading-relaxed">{item.answer}</p>
           </div>
         </motion.div>
       )}
     </AnimatePresence>
-  </div>
+  </motion.div>
 )
 
-export default function Component() {
+export default function EnhancedFAQ() {
   const [openItem, setOpenItem] = useState<number | null>(null)
 
   const faqItems: FAQItem[] = [
@@ -83,16 +88,28 @@ export default function Component() {
   ]
 
   return (
-    <section className="py-16 px-4 bg-black text-white">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Frequently asked questions</h2>
-          <p className="text-gray-400">
+    <section className="py-24 px-4 bg-black text-white">
+      <div className="max-w-4xl mx-auto">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-5xl font-bold mb-6 text-white">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Need help with something? Here are some of the most common questions we get.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="space-y-4">
+        <motion.div 
+          className="space-y-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           {faqItems.map((item, index) => (
             <FAQItem
               key={index}
@@ -101,8 +118,9 @@ export default function Component() {
               onClick={() => setOpenItem(openItem === index ? null : index)}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
+

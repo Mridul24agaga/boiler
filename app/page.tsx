@@ -13,7 +13,6 @@ import Feature2 from "./sections/Features2"
 export default function Home() {
   return (
     <>
-      <Header />
       <Hero />
       <LogoTicker/>
       <Feature2/>

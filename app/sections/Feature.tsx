@@ -1,7 +1,9 @@
 "use client"
 
-import { HoverEffect } from "@/app/components/ui/card-hover-effect";
-import { motion } from 'framer-motion';
+import React from 'react'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { Sparkles } from 'lucide-react'
 
 export const features = [
   {
@@ -75,69 +77,69 @@ export default function AIStartupKitDemo() {
       {/* Solid black background */}
       <div className="absolute inset-0 bg-black" />
 
-      {/* Less visible grid effect */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f0a_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f0a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_20%,transparent_100%)]" />
-      </div>
-
-      {/* Subtle floating light elements */}
-      <div className="absolute inset-0">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-purple-500 opacity-[0.08] rounded-full blur-xl"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              width: `${Math.random() * 100 + 50}px`,
-              height: `${Math.random() * 100 + 50}px`,
-            }}
-            animate={{
-              y: [0, -10, 0],
-              x: [0, Math.random() * 10 - 5, 0],
-            }}
-            transition={{
-              duration: Math.random() * 5 + 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
-
       {/* Content */}
       <div className="relative z-10">
-        <div className="max-w-5xl mx-auto px-8 pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-8 pt-20 pb-16">
           <motion.div 
-            className="text-center space-y-2 mb-12"
+            className="mb-12"
             variants={itemVariants}
           >
+            <motion.div 
+              className="flex items-center gap-2 mb-6"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Sparkles className="w-5 h-5 text-purple-400" />
+              <span className="text-sm text-zinc-400 tracking-wide">AI-powered boilerplate</span>
+            </motion.div>
             <motion.h2 
-              className="text-5xl font-bold text-white leading-tight"
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight text-left mb-4"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              AI Startup Kit Features
+              The ultimate AI Startup Boilerplate.
             </motion.h2>
             <motion.p 
-              className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
+              className="text-3xl sm:text-4xl text-zinc-500 max-w-4xl leading-tight text-left"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              Discover the powerful features that will accelerate your AI startup's journey from idea to production
+              Jumpstart your AI venture with our comprehensive toolkit and pre-built components.
             </motion.p>
           </motion.div>
           <motion.div
-            variants={itemVariants}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <HoverEffect items={features} />
+            {features.map((feature, index) => (
+              <motion.div key={index} variants={itemVariants} className="h-full">
+                <Link href={feature.link} className="block group h-full">
+                  <div className="relative overflow-hidden rounded-lg bg-zinc-900 p-8 h-full transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-xl flex flex-col justify-between">
+                    <div className="relative z-10">
+                      <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-purple-400 transition-colors duration-300">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                        {feature.description}
+                      </p>
+                    </div>
+                    <div className="mt-4">
+                      <span className="text-purple-400 group-hover:text-purple-300 transition-colors duration-300">Learn more →</span>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out origin-left"></div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </div>
     </motion.div>
   );
 }
+
