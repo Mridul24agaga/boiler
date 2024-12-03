@@ -22,7 +22,7 @@ const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onClick: () => void }>
     >
       <span className="text-xl font-semibold text-white pr-4">{item.question}</span>
       <motion.svg
-        className="w-6 h-6 text-black-400 flex-shrink-0"
+        className="w-6 h-6 text-gray-400 flex-shrink-0"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
